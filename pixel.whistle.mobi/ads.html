@@ -1,0 +1,23 @@
+<a href="" id="clickedData" hidden></a>
+<script>
+    var current_url = new URL(window.location.href);
+    var token = current_url.searchParams.get("apiToken")
+    var size = current_url.searchParams.get("size");
+    document.write(`<script src='https://pixel.whistle.mobi/feedAds.js' size="${size}" token="${token}"><\/script>`);
+    // set and get localstorage (if we click on ads)
+    let getAllStorageCheck = localStorage.getItem("whis_fid");
+    let queryString = window.location.search;
+    queryString = queryString.substring(10);
+    queryString = decodeURIComponent(queryString);
+    queryStringCamId = new URLSearchParams(queryString).get('campaign_id');
+    if (queryStringCamId != null) {
+        document.getElementById('clickedData').href = queryString;
+        if (getAllStorageCheck == null) localStorage.setItem("whis_fid", queryStringCamId);
+        if (getAllStorageCheck != null) {
+            data = getAllStorageCheck;
+            var stuffArray = data.split(",");
+            if (stuffArray.indexOf(queryStringCamId) == -1) localStorage.setItem("whis_fid", data + ',' + queryStringCamId);
+        }
+        document.getElementById('clickedData').click();
+    }
+</script>
